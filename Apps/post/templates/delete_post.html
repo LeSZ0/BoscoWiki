@@ -1,0 +1,21 @@
+{% extends "base/base.html" %}
+
+{% block title %}
+	Eliminar publicacion
+{% endblock title %}
+
+{% block classPost %}active{% endblock classPost %}
+
+{% block header %}	
+	Eliminar publicación
+{% endblock header %}	
+
+{% block content %}
+	
+	<form method="post">{% csrf_token %}
+		<h2>¿Desea eliminar el registro de {{ post.postTitle }}?</h2>
+
+		<button type="submit" class="btn btn-danger">Aceptar</button>
+		<a class="btn btn-default"  href="{% url 'post:index_post' %}">Cancelar</a>
+	</form>
+{% endblock content %}

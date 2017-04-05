@@ -1,0 +1,17 @@
+{% block comments %}
+	<div class="panel panel-default">
+		<div class="panel-body">
+
+			{% for comment in comments %}
+				
+				<span class="text-muted" style="float:right;">Fecha del comentario: {{ comment.created_at }}</span>
+				<span class="text-muted"><a href="" class="text-info">{{ comment.id_user }}</a></span>
+				<p class="center">{{ comment.text }}</p>
+				<hr>
+
+			{% endfor %}
+			
+			{% include "form_comment.html" %}
+		</div>
+	</div>
+{% endblock comments %}

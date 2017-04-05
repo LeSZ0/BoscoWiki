@@ -1,0 +1,49 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+	Usuarios
+{% endblock title %}
+
+	<body>
+	{% block classUser %}active{% endblock classUser %}
+	
+	{% block content %}
+
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Usuario</th>	
+					<th>Nombre</th>	
+					<th>Apellido</th>	
+					<th>email</th>	
+					<th>rol</th>
+					<th>Acciones</th>	
+				</tr>
+			</thead>
+			<tbody>
+				{% if object_list %}
+					
+					{% for user in object_list %}
+					
+						<tr>
+							<td>{{ user.id }}</td>
+							<td>{{ user.usuario }}</td>
+							<td>{{ user.nombre }}</td>
+							<td>{{ user.apellido }}</td>
+							<td>{{ user.email }}</td>
+							<td>{{ user.id_rol.rol }}</td>
+							<td>
+								<a class="btn btn-primary" href="{% url 'usuario:edit_user' user.id %}">Editar</a>
+								<a class="btn btn-danger" href="{% url 'usuario:delete_user' user.id %}">Eliminar</a>
+							</td>
+						</tr>
+
+					{% endfor %}
+
+				{% endif %}
+			</tbody>
+		</table>
+
+	{% endblock content %}
+	</body>

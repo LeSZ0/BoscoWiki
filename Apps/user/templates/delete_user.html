@@ -1,0 +1,12 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+	
+	<form method="post">{% csrf_token %}
+		<h2>¿Desea eliminar al usuario <i class="blue-text">{% block username %}{{ user.username }}{% endblock username %}</i> con el nombre de <i class="blue-text">{{ user.first_name }} {{ user.last_name }}</i>?</h2>
+
+		<button type="submit" class="btn red waves-effect">Eliminar</button>
+		<a href="{% url 'usuario:index_user' %}" class="btn grey waves-effect">Cancelar</a>
+	</form>
+{% endblock content %}
+	

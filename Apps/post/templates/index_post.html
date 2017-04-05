@@ -1,0 +1,95 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+	Publicaciones
+{% endblock title %}
+
+	<body>
+	{% block classPost %}active{% endblock classPost %}
+
+	{% block header %}
+		Publicaciones recientes <i class="small material-icons left">library_books</i>
+	{% endblock header %}
+	
+	{% block content %}
+		{% if user.is_authenticated %}
+			<div class='col m12 s12 l12'>
+				<div class="right">
+						<a class="btn green" href="{% url 'post:create_post' %}">
+							<i class="fa fa-plus left"></i> Nueva publicacion
+						</a>
+						
+				</div>
+				<div class="input-field left">
+					{% csrf_token %}
+					<input type="text" name="search_text" id='search'>
+					<label for="buscar">Buscar publicación</label>			
+				</div>
+			</div>
+		{% endif %}
+		<br><br><br>
+				<div id='search_result'>
+				{% if posts %}
+					
+					{% for post in posts %}
+							<div class="col m6 s6 l6">
+								<div class="card-panel colorate panel-hov">
+									<div class="panel-hov">
+										
+										<a href="{% url 'post:view_post' post.id %}"><h3 class="black-text center">{{ post.postTitle }}</h3></a>
+										{% if user.is_superuser %}
+											<span><a href="{% url 'post:update_post' post.id %}" class="btn cyan darken-2">Editar publicacion</a></span>
+												
+										{% endif %}
+										<h4>Categoría: {{ post.id_category }}</h4>
+										<h5 class='grey-text'>Creado por <a href="{% url 'usuario:view_user' post.id_user.id %}">{{ post.id_user }}</a></h5>
+										<p>{{ post.descr }}</p>
+										<a href="{% url 'post:view_post' post.id %}">Leer mas...</a>
+									</div>
+								</div>
+							</div>
+					{% endfor %}
+
+				{% else %}
+					<h5 class="center">No existen registros de publicaciones</h5>
+
+				{% endif %}
+				
+				{% block paginator %}
+					
+					<div class="col l12 center">
+						<ul class="pagination">
+							{% if not posts.has_previous %}
+								
+						  		<li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+						  	{% else %}
+						  		<li class="waves-effect"><a href="?page={{ posts.previous_page_number }}"><i class="material-icons">chevron_left</i></a></li>
+							{% endif %}
+
+							{% for page in posts.paginator.page_range  %}
+								{% if page == posts.number %}
+									
+									<li class="active cyan darken-2"><a href="?page={{ page }}">{{ page }}</a></li>
+								{% else %}
+									<li class="waves-effect"><a href="?page={{ page }}">{{ page }}</a></li>
+								{% endif %}
+
+							{% endfor %}
+
+						  {% if posts.has_next %}
+						  	<li class="waves-effect"><a href="?page={{ posts.next_page_number }}"><i class="material-icons">chevron_right</i></a></li>
+						  {% else %}
+
+						  	<li class="disabled"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+						  	
+						  {% endif %}
+						</ul>
+					</div>
+				{% endblock paginator %}
+				</div>
+
+	{% endblock content %}
+
+	</body>
+
+</html>

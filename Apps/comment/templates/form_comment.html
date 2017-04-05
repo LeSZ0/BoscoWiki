@@ -1,0 +1,21 @@
+{% block createComment %}
+	<h5>Reliza tu comentario</h5>
+	<form method='post'>{% csrf_token %}
+		<div class="input-field">
+			{{ comment.text }}
+		</div>
+		<div class="input-field">
+			<input type="hidden" name="id_user" value="{{ user.id }}">
+		</div>
+		<div class="input-field">
+			<input type="hidden" name="id_post" value="{{ post_id }}">
+		</div>
+		<div class="input-field">
+			<label for="{{ form.current_state.name }}">{{ form.current_state.label }}</label>
+			<input type="hidden" name="current_state" value="3">
+		</div>
+		<div class="input-field">
+			<button type="submit" class="btn btn-success">Relizar Comentario</button>
+		</div>
+	</form>
+{% endblock createComment %}

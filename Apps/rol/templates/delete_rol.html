@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+
+{% block title %}
+	Borrar rol
+{% endblock title %}
+
+
+{% block content %}
+	
+	<form method="post">
+		<!-- <div class="form-group">
+			{{ form.usuario }}
+		</div>
+		<div class="form-group">
+			{{ form.nombre }}
+		</div>
+		<div class="form-group">
+			{{ form.apellido }}
+		</div>
+		<div class="form-group">
+			{{ form.email }}
+		</div>
+		<div class="form-group">
+			{{ form.password }}
+		</div>
+		<button type="submit" class="btn btn-success btn-block">Crear usuario</button> -->
+		{% csrf_token %}
+		<h2>¿Desea eliminar el registro de {{ object.rol }}?</h2>
+
+		<button type="submit" class="btn btn-danger">Aceptar</button>
+		<a class="btn btn-default"  href="{% url 'rol:index_rol' %}">Cancelar</a>
+	</form>
+{% endblock content %}

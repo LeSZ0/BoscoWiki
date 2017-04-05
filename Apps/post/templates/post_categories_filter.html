@@ -1,0 +1,13 @@
+{% extends "index_post.html" %}
+
+{% block header %}
+	{% if category.name == '' %}
+		No existen publicaciones
+
+	{% else %}
+			
+		<h2 class="center">{{ category.name }} recientes</h2>
+	
+	{% endif %}
+
+{% endblock header %}

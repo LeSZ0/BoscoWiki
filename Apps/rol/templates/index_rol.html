@@ -1,0 +1,46 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+	Roles
+{% endblock title %}
+
+	<body>
+	
+	{% block content %}
+
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Rol</th>	
+					<th>Acciones</th>	
+				</tr>
+			</thead>
+			<tbody>
+				{% if roles %}
+					
+					{% for rol in roles %}
+					
+						<tr>
+							<td>{{ rol.id }}</td>
+							<td>{{ rol.rol }}</td>
+							<td>
+								<a class="btn btn-primary" href="{% url 'rol:update_rol' rol.id %}">Editar</a>
+								<a class="btn btn-danger" href="{% url 'rol:delete_rol' rol.id %}">Eliminar</a>
+							</td>
+						</tr>
+
+					{% endfor %}
+
+				{% else %}
+					<h3>No existen registros de publicaciones</h3>
+
+				{% endif %}
+			</tbody>
+		</table>
+
+	{% endblock content %}
+
+	</body>
+
+</html>

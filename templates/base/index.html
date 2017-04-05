@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+	Inicio
+{% endblock title %}
+
+{% block header %}
+	LaClase<img class="imgs" src="{% static 'img/Wiki.png' %}">
+{% endblock header %}
+
+{% block classHome %}active{% endblock classHome %}
+
+{% block content %}
+
+	<a href="{% url 'post:index_post' %}" class="btn cyan darken-2">Ir a las publicaciones <i class="material-icons left">library_books</i></a>
+
+	<h4 class="center">¡Hola!</h4>
+	<p>Este espacio es dedicado a los alumnos y la docente de la asignatura Ciencias Sociales, para 4° Sociales del Colegio Don Bosco De Neuquén.
+	Compartiremos un registro de la clase, consultas, tareas y novedades de la materia.
+	Para acceder deberás registrarte y esperar la confirmación.</p>
+	<h5 class='center'>¡Tengamos un hermoso año compartido!</h5>
+	<h4 class='center'>LaClaseWiki</h4>
+
+{% endblock content %}

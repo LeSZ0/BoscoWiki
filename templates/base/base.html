@@ -1,0 +1,247 @@
+<!-- Integrando archivos estáticos -->
+{% load staticfiles %}
+
+<html lang="es">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>{% block title %} Inicio {% endblock %} - LaClase</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css' %}">
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/django-project.css' %}"> -->
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/project-style.css' %}">
+
+</head>
+
+<body>
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper cyan darken-2 white-text text-lighten-2">
+                <a class="brand-logo" href="/index">LaClase</a>
+                <!-- Para navegadores web de celulares -->
+                <a href="#!" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+                    <ul class="side-nav" id="nav-mobile">
+                        <li class="{% block classHomeM %}{% endblock classHomeM %}">
+                            <a href="/">Inicio <i class="material-icons left">home</i></a>
+                        </li>
+                        {% if user.is_superuser %}
+                        <li class="{% block classUserM %}{% endblock classUserM %}">
+                             <a href="/usuario/">Usuarios <i class="material-icons left">group</i></a>
+                        </li>
+
+                        {% endif %}
+                        <li class="no-padding">
+                        <ul class="collapsible collapsible-accordion">
+
+                            <li class="{% block classPostM %}{% endblock classPostM %} no-padding">
+                                <a class="collapsible-header" id="posts">Publicaciones <i class="material-icons left">library_books</i><i class="material-icons right">arrow_drop_down</i>
+                                </a>
+                                <div class="collapsible-body">
+                                    <ul>
+                                        <li class=""><a href="/post/">Todas <i class="material-icons left">library_books</i></a></li>
+                                        <li class="divider"></li>
+                                        <li>
+                                            <ul class="collapsible collapsible-accordion">
+                                                <li class="no-padding">
+                                                    <a class='collapsible-header' href='#!'><i class="material-icons left">collections_bookmark</i>Categorias <i class="material-icons right">arrow_drop_down</i>
+                                                    </a>
+                                                    <div class="collapsible-body">
+                                                        <ul>
+                                                            <li><a href="/post/category/1">Consultas <i class="material-icons left">help_outline</i></a></li>
+                                                            <li><a href="/post/category/2">Novedades <i class="material-icons left">edit</i></a></li>
+                                                            <li><a href="/post/category/3">Tareas <i class="material-icons left">lightbulb_outline</i></a></li>
+                                                        </ul>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                        {% if user.is_authenticated %}
+                            <li class="{% block ArchiveM %}{% endblock ArchiveM %}">
+                                <a href="{% url 'files' %}">Archivos <i class="fa fa-file left"></i></a>
+                            </li>
+
+                        {% endif %}
+                        {% if user.is_superuser %}
+                            <li><a href="/3bc0763c17851984e51c64b746fe42a3/d033e22ae348aeb5660fc2140aec35850c4da997/" target="_blank">Administración <i class="material-icons left">settings</i></a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <!-- <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-comment"></i></a>
+                                <ul class="dropdown-menu" aria-labelledby="messages">
+
+                                </ul>
+                            </li> -->
+                            <li>
+                                <ul class="collapsible collapsible-accordion">
+                                    <li class="no-padding">
+                                        <a class="collapsible-header" href="#" ><i class="material-icons left">person</i> {{ user.username }} <i class="material-icons right">arrow_drop_down</i></a>
+                                        <ul class="collapsible-body">
+                                            <li><a href="{% url 'usuario:view_user' user.id %}">Mi perfil <i class="material-icons left">person_pin</i></a></li>
+                                            <li><a href="/logout">Salir<i class="material-icons">exit_to_app</i></a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+
+                        {% else %}
+                            <li><a href="/login">Ingresar <i class="material-icons left">lock_open</i></a></li>
+                            <li><a href="{% url 'usuario:create_user' %}">Crear cuenta <i class="fa fa-user-plus left"></i></a></li>
+                        {% endif %}
+                    </ul>
+                    <!-- Para navegadores web de computadoras -->
+                    <ul class="right hide-on-med-and-down">
+                        <li class="{% block classHome %}{% endblock classHome %}">
+                            <a href="/">Inicio <i class="material-icons left">home</i></a>
+                        </li>
+                        {% if user.is_superuser %}
+                        <li class="{% block classUser %}{% endblock classUser %}">
+                             <a href="/usuario/"><i class="material-icons left">group</i> Usuarios</a>
+                        </li>
+
+                        {% endif %}
+                        <li class="{% block classPost %}{% endblock classPost %}">
+                            <a class="dropdown-button" href="#!" id="posts" data-activates="publicDropDown">Publicaciones <i class="material-icons left">library_books</i><i class="material-icons right">arrow_drop_down</i>
+                            </a>
+                            <ul class="dropdown-content" id="publicDropDown" aria-labelledby="posts">
+                                <li class=""><a href="/post/">Todas</a></li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a class='dropdown-button' href='#' data-activates='categDropDown' data-hover="hover" data-alignment="right">Categorias <i class="fa fa-caret-right" aria-hidden="true"></i>
+                                    </a>
+                                    <ul class="dropdown-content secondDropDown" id="categDropDown">
+                                        <li><a href="/post/category/1">Consultas</a></li>
+                                        <li><a href="/post/category/2">Novedades</a></li>
+                                        <li><a href="/post/category/3">Tareas</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="{% block Archive %}{% endblock Archive %}">
+                                <a href="{% url 'files' %}">Archivos <i class="fa fa-file left"></i></a>
+                            </li>
+
+                        {% endif %}
+                        {% if user.is_superuser %}
+                            <li><a href="/3bc0763c17851984e51c64b746fe42a3/d033e22ae348aeb5660fc2140aec35850c4da997/" target="_blank">Administración <i class="material-icons left">settings</i></a></li>
+                        {% endif %}
+                        {% if user.is_authenticated %}
+                            <!-- <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><i class="glyphicon glyphicon-comment"></i></a>
+                                <ul class="dropdown-menu" aria-labelledby="messages">
+
+                                </ul>
+                            </li> -->
+                            <li>
+                                <a class="dropdown-button" href="#" data-activates='userDropDown'><i class="material-icons left">person</i> {{ user.username }} <span class="caret"></span></a>
+                                <ul class="dropdown-content" id="userDropDown">
+                                    <li><a href="{% url 'usuario:view_user' user.id %}">Mi perfil</a></li>
+                                    <li><a href="/logout">Salir</a></li>
+                                </ul>
+                            </li>
+
+                        {% else %}
+                            <li><a href="/login">Ingresar <i class="material-icons left">lock_open</i></a></li>
+                            <li><a href="{% url 'usuario:create_user' %}">Crear cuenta <i class="fa fa-user-plus left"></i></a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col l12">
+                <h4 class="center">{% block header %}{% endblock header %}</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col l12">
+                {% block content %}
+                <h5>Aca el contenido</h5>
+                {% endblock content %}
+            </div>
+        </div>
+    </div>
+
+    {% block footer %}
+    <footer class="page-footer grey darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l12 s12 center">
+                    <div class="left">
+                        <a href="https://www.facebook.com" class="blue-text">Seguínos en <i class="fa fa-facebook" aria-hidden="true"></i></a>
+                    </div>
+                    <div class="right">
+                        <a href="https://www.google.com.ar" class="red-text">Y también agreganos en <i class="fa fa-google-plus" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright grey darken-4">
+            <div class="container">
+                <span>Powered by <a href="https://djangoproject.com" target="_blank">Django ©</a> 2017</span>
+                <span class="right">Developed by <a class="text-lighten-4" href="https://github.com/LeSZ0/" target="_blank">LeSZ0 ©</a></span>
+            </div>
+        </div>
+    </footer>
+    {% endblock footer %}
+
+    <!-- jQuery -->
+    <script src="{% static 'js/jquery-3.min.js' %}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'js/materialize.min.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/tiny_mce.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/ajax.js' %}"></script>
+
+    <script>
+        $(document).ready(function(){
+            $('.button-collapse').sideNav({
+                edge: 'left', // Choose the horizontal origin
+                closeOnClick: false, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+                draggable: true, // Choose whether you can drag to open on touch screens
+
+            });
+            $('.collapsible').collapsible();
+            $(".modal").modal({
+                dismissible: false
+            });
+            $('select').material_select();
+            $(".dropdown-button").dropdown({
+                inDuration: 300,
+                outDuration: 225,
+                constrain_width: true, // Does not change width of dropdown to that of the activator
+                hover: true, // Activate on hover
+                gutter: 0, // Spacing from edge
+                belowOrigin: true, // Displays dropdown below the button
+                alignment: 'left' // Displays dropdown with edge aligned to the left of button
+            });
+
+        });
+    </script>
+
+    {% block script %}
+
+    {% endblock script %}
+
+</body>
+
+</html>

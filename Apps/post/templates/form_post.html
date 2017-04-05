@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+
+{% block title %}
+	Crear publicacion
+{% endblock title %}
+
+{% block classPost %}active{% endblock classPost %}
+
+{% block header %}
+	Crear publicación
+{% endblock header %}
+
+{% block content %}
+	<form method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+			<div class="input-field col12">
+				{{ form.postTitle }}
+				<label for="{{ form.postTitle.name }}">{{ form.postTitle.label }}</label>
+			</div>
+			<div class="input-field col12">
+				{{ form.id_category }}
+				<label for="{{ form.id_category.name }}">{{ form.id_category.label }}</label>
+			</div>
+			<div class="input-field col12">
+				{{ form.descr }}
+				<label for="{{ form.descr.name }}">{{ form.descr.label }}</label>
+			</div>
+			<div class="input-field col12 django-ckeditor-widget">
+				{{ form.text }}
+			</div>
+			<div class="form-group">
+				<input type="hidden" name="id_user" value="{{ user.id }}">
+			</div>
+			<div class="input-field">
+				{{ form.files }}
+			</div>
+			<div class="input-field col12">
+				<button type="submit" class="btn green waves-effect waves-light">{% block action %}Publicar{% endblock action %}<i class="material-icons left">send</i></button>
+			</div>
+	
+	</form>
+{% endblock content %}

@@ -1,0 +1,105 @@
+{% extends "base/base.html" %}
+
+{% block title %}
+	{{ post.postTitle }}
+{% endblock title %}
+
+{% block classPost %}active{% endblock classPost %}
+
+{% block header %}
+	Detalles de la publicación
+{% endblock header %}
+
+
+{% block content %}
+	{% if user.is_superuser %}
+
+		<a href="{% url 'post:delete_post' post.id %}" class="btn red">Eliminar publicación</a>
+		<a href="{% url 'post:update_post' post.id %}" class="btn teal">Editar publicación</a>
+		
+	{% endif %}<br><br>
+	<div class="card darken-1">
+		<div class="card-content">
+			<h2 class="center card-title">{{ post.postTitle }}</h2>
+			<span class="grey-text" style="float:right;">Fecha de publicación: {{ post.created_at }}</span>
+			<span class="grey-text">Publicación realizada por el usuario: <a href="" class="blue-text">{{ post.id_user }}</a></span>
+			<hr>
+			<p>{{ post.text }}</p>
+			{% if post.files %}
+				<img src="{{ post.files.url }}" class='responsive-img'>
+			{% endif %}
+
+		</div>		
+
+	</div>
+
+
+	{% block comments %}
+	<div class="card-panel">
+		<div class="card-content">
+			<h4>Comentarios</h4>
+			<hr>
+
+			{% if not comments %}
+				<h5 class="red-text">Todavía no existe ningún comentario para esta publicación</h5>
+			{% endif %}
+
+			{% for comment in comments %}
+				
+				{% if user.is_superuser %}
+					<span style="float:right;"><a href="#modal_delete" class="red-text"><i class="material-icons left">delete</i></a></span>
+					<center><span class="grey-text">Fecha del comentario: {{ comment.created_at }}</span></center>
+
+					<!-- Agregar MODAL -->
+					<div id="modal_delete" class="modal">
+					   	<div class="modal-content">
+					   		{% include "delete_comment.html" %}
+					   	</div>
+					   	<div class="modal-footer">
+							<a class="btn waves-effect waves-green btn-flat" href="{% url 'comment:delete_comment' comment.id %}">Aceptar</a>
+							<a class="btn modal-close waves-effect waves-red btn-flat">Cancelar</a>
+					   	</div>
+					</div>
+					
+
+				{% else %}
+					<span class="grey-text" style="float:right;">Fecha del comentario: {{ comment.created_at }}</span>
+					
+				{% endif %}
+				<span class="grey-text">Usuario: <a href="" class="blue-text">{{ comment.id_user }}</a></span>
+				<p class="center">{{ comment.text }}</p>
+				<hr>
+			
+			{% endfor %}
+			{% if user.is_authenticated %}
+				
+				{% block createComment %}
+					<h5>Reliza tu comentario</h5>
+					<form method='get' action="{% url 'comment:create_comment' post.id %}">{% csrf_token %}
+						<div class="input-field">
+							<textarea name="text" id="text" class="validate materialize-textarea"></textarea>
+							<label for="text">Escribe tu comentario</label>
+						</div>
+						<div class="input-field">
+							<input type="hidden" name="id_user" value="{{ user.id }}">
+						</div>
+						<div class="input-field">
+							<input type="hidden" name="id_post" value="{{ post.id }}">
+						</div>
+						<div class="input-field">
+							<label for="{{ form.current_state.name }}">{{ form.current_state.label }}</label>
+							<input type="hidden" name="current_state" value="3">
+						</div>
+						<div class="input-field">
+							<button type="submit" class="btn green">Realizar comentario <i class="material-icons left">send</i></button>
+						</div>
+					</form>
+				{% endblock createComment %}
+			{% endif %}
+
+			
+		</div>
+	</div>
+{% endblock comments %}
+
+{% endblock content %}

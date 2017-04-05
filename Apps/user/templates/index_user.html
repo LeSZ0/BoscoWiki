@@ -1,0 +1,82 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+	Usuarios
+{% endblock title %}
+
+{% block header %}
+	Listado de usuarios
+{% endblock header %}
+
+	<body>
+	{% block classUser %}active{% endblock classUser %}
+	
+	{% block content %}
+		<div>
+			{% if user.is_superuser %}
+				<a class="btn green" href="{% url 'usuario:create_user' %}">
+				<i class="fa fa-plus"></i></a>
+			{% endif %}
+
+		</div><br>
+
+		<table class="striped bordered centered responsive-table">
+			<thead>
+				<tr>
+					<th>#</th>
+					<th>Usuario</th>	
+					<th>Nombre</th>	
+					<th>Apellido</th>	
+					<th>email</th>	
+					<th>Rol Admin</th>
+					<th>Usuario activado</th>
+					<th>Acciones</th>	
+				</tr>
+			</thead>
+			<tbody>
+				{% if users %}
+					
+					{% for userr in users %}
+						{% if userr.id == user.id %}
+					
+						<tr class="blue-text">
+
+						{% else %}
+						<tr>
+
+						{% endif %}
+							<td>{{ userr.id }}</td>
+							<td>{{ userr.username }}</td>
+							<td>{{ userr.first_name }}</td>
+							<td>{{ userr.last_name }}</td>
+							<td>{{ userr.email }}</td>
+							{% if userr.is_superuser %}
+								<td>Si</td>
+							{% else %}
+								<td>No</td>
+							{% endif %}
+
+							{% if userr.is_active %}
+								<td>Activado</td>
+							{% else %}
+								<td>No Activado</td>								
+							{% endif %}
+							<td>
+								<a href="{% url 'usuario:view_user' userr.id %}" class="black-text"><i class="material-icons">visibility</i></a>
+								<a href="{% url 'usuario:edit_user' userr.id %}" class="orange-text"><i class="material-icons" >edit</i></a>
+								<a href="{% url 'usuario:delete_user' userr.id %}" class="red-text"><i class="material-icons" >delete</i></a>
+							</td>
+						</tr>
+
+
+					{% endfor %}
+
+				{% endif %}
+			</tbody>
+		</table>
+
+	{% endblock content %}
+
+	</body>
+
+</html>

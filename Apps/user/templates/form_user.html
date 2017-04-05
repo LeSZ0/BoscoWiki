@@ -1,0 +1,89 @@
+{% extends "base/base.html" %}
+
+{% block title %}
+	Crear usuario
+{% endblock title %}
+
+{% block classUser %}active{% endblock classUser %}
+
+{% block header %}
+	Crear usuario
+{% endblock header %}
+
+{% block content %}
+	
+	<form method="post"> {% csrf_token %}
+
+			{% if 'username' in message %}
+				<div class="input-field red-text">
+					<label for="{{ form.username.name }}">{{ form.username.label }} *</label>
+					<p class="text-danger">{{ message.username }}</p>
+					{{ form.username }}
+				</div>
+			{% else %}
+				<div class="input-field">
+					<i class="material-icons prefix">account_circle</i>
+					<label for="{{ form.username.name }}">{{ form.username.label }} *</label>
+					{{ form.username }}
+				</div>
+			{% endif %}
+			{% if first_name in message %}
+
+				<div class="input-field red-text">
+					<label for="{{ form.first_name.name }}">{{ form.first_name.label }}</label>
+					{{ form.first_name }}
+				</div>
+
+			{% else %}	
+				<div class="input-field">
+					<i class="material-icons prefix">person</i>
+					<label for="{{ form.first_name.name }}">{{ form.first_name.label }}</label>
+					{{ form.first_name }}
+				</div>
+			{% endif %}
+			<div class="input-field">
+				<i class="material-icons prefix">person</i>
+				<label for="{{ form.last_name.name }}">{{ form.last_name.label }}</label>
+				{{ form.last_name }}
+			</div>
+			<div class="input-field">
+				<i class="material-icons prefix">mail_outline</i>
+				<label for="{{ form.email.name }}">{{ form.email.label }} *</label>
+				{{ form.email }}
+			</div>
+			{% if 'password1' in message %}
+
+			<div class="input-field red-text focused">
+				<i class="material-icons prefix">vpn_key</i>
+				<label for="password1">Contraseña *</label><span class="text-danger"> {{ message.password1 }}</span>
+				<input class="validate" type="password" name="password1">
+			</div>
+			{% else %}	
+			<div class="input-field">
+				<i class="material-icons prefix">vpn_key</i>
+				<label class="control-label" for="password1">Contraseña *</label>
+				<input class="form-control" type="password" name="password1">
+			</div>
+			{% endif %}
+			{% if 'password2' in message %}
+
+			<div class="input-field red-text focused">
+				<i class="material-icons prefix">vpn_key</i>
+				<label class="control-label" for="password2">Repita la contraseña *</label><span class="text-danger">{{ message.password2 }}</span>
+				<input class="validate" type="password" name="password2" id="password1">
+			</div>
+			{% else %}	
+			<div class="input-field">
+				<i class="material-icons prefix">vpn_key</i>
+				<label class="control-label" for="password2">Repita la contraseña *</label>
+				<input class="validate" type="password" name="password2">
+			</div>
+			{% endif %}
+			
+			{% block activarUser %}
+			{% endblock activarUser %}
+			<div class="input-field">
+				<button type="submit" class="btn green">{% block action %}Crear usuario{% endblock action %} <i class="material-icons left">send</i></button>
+			</div>
+	</form>
+{% endblock content %}
