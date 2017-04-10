@@ -24,6 +24,10 @@
 		
 	{% endif %}
 
+	{% if user.id == userr.id %}
+		<a href="/reset/pwd/change" class="btn orange">Cambiar contraseña</a>
+	{% endif %}
+
 	<table class="striped bordered responsive-table centered">
 	    <thead>
 	        <tr>
