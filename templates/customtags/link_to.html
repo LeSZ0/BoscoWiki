@@ -1,0 +1,14 @@
+{% if id == None or id == 0%}
+	{% if icon == '' %}
+		<a href="{{ link }}/" class="{{ class }}">{{ name }}</a>
+	{% else %}
+		<a href="{{ link }}/" class="{{ class }}">{{ name }} <i class="material-icons left">{{ icon }}</i></a>
+	{% endif %}
+{% else %}
+	{% if icon == '' %}
+		<a href="{{ link }}/{{ id }}" class="{{ class }}">{{ name }}</a>
+	{% else %}
+		<a href="{{ link }}/{{ id }}" class="{{ class }}">{{ name }} <i class="material-icons left">{{ icon }}</i></a>
+		
+	{% endif %}
+{% endif %}

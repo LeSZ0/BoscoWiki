@@ -156,6 +156,6 @@ EMAIL_BACKEND = ''
 CKEDITOR_UPLOAD_PATH = "uploads/"
 
 try:
-    from . import local_settings
-except:
+    from .local_settings import *
+except ImportError as e:
     pass

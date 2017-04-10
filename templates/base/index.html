@@ -1,5 +1,6 @@
 {% extends "base/base.html" %}
 {% load staticfiles %}
+{% load link_to %}
 
 {% block title %}
 	Inicio
@@ -12,8 +13,8 @@
 {% block classHome %}active{% endblock classHome %}
 
 {% block content %}
-
-	<a href="{% url 'post:index_post' %}" class="btn cyan darken-2">Ir a las publicaciones <i class="material-icons left">library_books</i></a>
+	
+	{% link_to 'post' 'index' 0 'Ir a las publicaciones' 'btn cyan darken-2' 'library_books' %}
 
 	<h4 class="center">¡Hola!</h4>
 	<p>Este espacio es dedicado a los alumnos y la docente de la asignatura Ciencias Sociales, para 4° Sociales del Colegio Don Bosco De Neuquén.

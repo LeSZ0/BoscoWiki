@@ -1,4 +1,6 @@
 {% extends 'base/base.html' %}
+{% load i18n %}
+{% load link_to %}
 
 {% block title %}
 	Publicaciones
@@ -38,13 +40,13 @@
 										
 										<a href="{% url 'post:view_post' post.id %}"><h3 class="black-text center">{{ post.postTitle }}</h3></a>
 										{% if user.is_superuser %}
-											<span><a href="{% url 'post:update_post' post.id %}" class="btn cyan darken-2">Editar publicacion</a></span>
+											<span>{% link_to 'post' 'update' post.id 'Editar publicación' 'btn cyan darken-2'%}</span>
 												
 										{% endif %}
 										<h4>Categoría: {{ post.id_category }}</h4>
-										<h5 class='grey-text'>Creado por <a href="{% url 'usuario:view_user' post.id_user.id %}">{{ post.id_user }}</a></h5>
+										<h5 class='grey-text'>Creado por {% link_to 'usuario' 'view' post.id_user.id post.id_user %} </h5>
 										<p>{{ post.descr }}</p>
-										<a href="{% url 'post:view_post' post.id %}">Leer mas...</a>
+										{% link_to 'post' 'view' post.id 'Leer mas...' %}
 									</div>
 								</div>
 							</div>
