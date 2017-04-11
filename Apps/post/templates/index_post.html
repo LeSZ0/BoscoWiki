@@ -1,6 +1,5 @@
 {% extends 'base/base.html' %}
 {% load i18n %}
-{% load link_to %}
 
 {% block title %}
 	Publicaciones
@@ -10,22 +9,22 @@
 	{% block classPost %}active{% endblock classPost %}
 
 	{% block header %}
-		Publicaciones recientes <i class="small material-icons left">library_books</i>
+		{% trans "Posts recents" %} <i class="small material-icons left">library_books</i>
 	{% endblock header %}
 	
 	{% block content %}
 		{% if user.is_authenticated %}
 			<div class='col m12 s12 l12'>
 				<div class="right">
-						<a class="btn green" href="{% url 'post:create_post' %}">
-							<i class="fa fa-plus left"></i> Nueva publicacion
-						</a>
+					<a class="btn green" href="{% url 'post:create_post' %}">
+						<i class="fa fa-plus left"></i> {% trans "New post" %}
+					</a>
 						
 				</div>
 				<div class="input-field left">
 					{% csrf_token %}
 					<input type="text" name="search_text" id='search'>
-					<label for="buscar">Buscar publicación</label>			
+					<label for="buscar">{% trans "Search post" %}</label>			
 				</div>
 			</div>
 		{% endif %}
@@ -40,13 +39,12 @@
 										
 										<a href="{% url 'post:view_post' post.id %}"><h3 class="black-text center">{{ post.postTitle }}</h3></a>
 										{% if user.is_superuser %}
-											<span>{% link_to 'post' 'update' post.id 'Editar publicación' 'btn cyan darken-2'%}</span>
-												
+											<span><a href="{% url 'post:update_post' post.id %}" class="btn cyan darken-2">{% trans "Update post" %}</a></span>
 										{% endif %}
-										<h4>Categoría: {{ post.id_category }}</h4>
-										<h5 class='grey-text'>Creado por {% link_to 'usuario' 'view' post.id_user.id post.id_user %} </h5>
+										<h4>{% trans "Category:" %} {{ post.id_category }}</h4>
+										<h5 class='grey-text'>{% trans 'Created by ' %}<a href="{% url 'usuario:view_user' post.id_user.id %}">{{ post.id_user }}</a> </h5>
 										<p>{{ post.descr }}</p>
-										{% link_to 'post' 'view' post.id 'Leer mas...' %}
+										<a href="{{ post.get_absolute_url }}">{% trans "Read more..." %}</a>
 									</div>
 								</div>
 							</div>

@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^create', createUser.as_view(), name='crear_user'),
     url(r'^update/(?P<pk>\d+)/$', updateUser.as_view(), name='update_user'),
     url(r'^borrar/(?P<pk>\d+)/$', borrarUser.as_view(), name='borrar_user'),
+    url(r'^reset/$', password_updated , name='reset_your_password'),
 ]

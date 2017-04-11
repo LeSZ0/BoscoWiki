@@ -25,8 +25,9 @@
 				{{ form.descr }}
 				<label for="{{ form.descr.name }}">{{ form.descr.label }}</label>
 			</div>
-			<div class="input-field col12 django-ckeditor-widget">
+			<div class="input-field col12">
 				{{ form.text }}
+				<label  for="{{ form.text.name }}">{{ form.text.label }}</label>
 			</div>
 			<div class="form-group">
 				<input type="hidden" name="id_user" value="{{ user.id }}">

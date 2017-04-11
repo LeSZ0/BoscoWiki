@@ -3,9 +3,17 @@ from django.http import HttpResponse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth.hashers import PBKDF2PasswordHasher
+
+from django.conf import settings
+from django.core.mail import send_mail
+
+from django.contrib import messages
 
 #from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import User
+
+import random
 
 from Apps.user.forms import UserForm
 
@@ -74,6 +82,39 @@ def delete_user(request, id_user):
 def view_user(request, id_user):
 	user = User.objects.get(id = id_user)
 	return render(request, 'view_user.html', {'userr': user})
+
+def password_updated(request):
+	if request.method == 'POST':
+		try:
+			user = get_object_or_404(User, email = request.POST['email'])
+			new_pwd = password_generator()
+			user.set_password(new_pwd)
+			user.save(update_fields = ['password'])
+			success = 'your password has been reseted, check your email!'
+			messages.success(request, success)
+			subject = 'Password reseted'
+			message = 'your password has been reseted, your new password is: {}'.format(new_pwd)
+			from_email = settings.EMAIL_HOST_USER
+			email = user.email
+			to_list = [email, settings.EMAIL_HOST_USER]
+
+			send_mail(subject, message, from_email, to_list, fail_silently=True)
+
+			return render(request, 'base/login.html')
+
+		except:
+
+			error = msg.errors
+			messages.error(request, error)
+			return render(request, 'base/index.html')
+	return render(request, 'reset_password.html')
+
+def password_generator():
+	password = ''
+	chars = ['$', '?d', 'e', 'f', 'g', 'h', 'i', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+	for i in range(5):
+		password += (random.choice(chars) + str(random.randint(0,50)))
+	return password
 
 
 class listUser(ListView):

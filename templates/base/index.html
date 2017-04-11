@@ -1,6 +1,6 @@
 {% extends "base/base.html" %}
+{% load i18n %}
 {% load staticfiles %}
-{% load link_to %}
 
 {% block title %}
 	Inicio
@@ -13,8 +13,17 @@
 {% block classHome %}active{% endblock classHome %}
 
 {% block content %}
+
+	{% if messages %}
+		
+		{% for message in messages %}
+				
+			<p id='notice' {% if message.tags == 'success' %} class="alert alert-success" {% elif message.tags == 'error' %}class="alert alert-danger"{% endif %}>{% blocktrans %}{{ message }}{% endblocktrans %}</p>
+		{% endfor %}
+		
+	{% endif %}
 	
-	{% link_to 'post' 'index' 0 'Ir a las publicaciones' 'btn cyan darken-2' 'library_books' %}
+	<a href="{% url 'post:index_post' %}" class="btn cyan darken-2">Ir a las publicaciones <i class="material-icons left">library_books</i></a>
 
 	<h4 class="center">¡Hola!</h4>
 	<p>Este espacio es dedicado a los alumnos y la docente de la asignatura Ciencias Sociales, para 4° Sociales del Colegio Don Bosco De Neuquén.
