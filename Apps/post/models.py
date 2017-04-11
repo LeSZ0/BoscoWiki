@@ -4,14 +4,12 @@ from django.db import models
 #from Apps.user.models import User
 from django.contrib.auth.forms import User
 
+from django.core.urlresolvers import reverse_lazy
+
 from ckeditor.fields import RichTextField
 
 class Category(models.Model):
 	name = models.CharField('Nombre', db_column='name', max_length=20, blank=False, null=False)
-
-	class Meta:
-		managed = True
-		db_table = 'Category'
 
 	def __str__(self):
 		return '{}'.format(self.name)
@@ -26,9 +24,9 @@ class Post(models.Model):
     created_at = models.DateTimeField('Fecha de publicacion', db_column="created_at", auto_now_add=True, blank=True, null=False)
     files = models.ImageField('Archivos', db_column='files', default=None, null=True, blank=True)
 
-    class Meta:
-        managed = True
-        db_table = 'Post'
-
     def __str__(self):
         return '{}'.format(self.postTitle)
+
+    def get_absolute_url(self):
+        view_name = 'post:view_post'
+        return reverse_lazy(view_name, kwargs={'id_post': self.id})
